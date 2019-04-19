@@ -25,3 +25,36 @@
 
   Anyways, I need to do more thinking. Cyan!
 </entry>
+
+<entry name="first tangable ideas">
+  We learn and think with nodes, right?
+  What if the computer stored nodes that have connections with other nodes, and those connections get stronger when the computer sees two "linked" concepts?
+  This is pretty much a model at our current guess of how the brain works. Right?
+
+  I was thinking that there could be different types of connections, like -1 < meaning < 1 connections and -1 < sentiment < 1 connections, etc,
+    but that seems to defeat the whole point.
+
+  After all, the goal is to not constrain the computer, and putting in those categories for it would make the first part easy but limit it in the future.
+  It needs to learn the categories for itself. The problem is how?
+
+  That needs to be thought out more...
+
+  Anyways, I was thinking there are three main "layers" or "steps" to this whole thing.
+    1. Analyze text (wikipedia, other sources maybe) and have some understanding of how concepts relate  (Google NatLang API already does this pretty well)
+    2. Encode this basic understanding in a network of nodes, with a node for each concept.
+      We want the network to be able to help with understanding new material, so it should tie back into the NatLang system if possible. But this is a next step.
+    3. After the network learns a bunch of stuff, look at some of the nodes and how they are connected, to see what the network "knows".
+      It would be really nice for us to be able to just ask the network what it knows about stuff, but that might be difficult.
+
+  So that's the big picture overview. Here are the next steps:
+    1. Flush out the idea of computer generated connections, and how they would work.
+      This seems like the "correct" way to solve this problem, and I refuse to compromise. I don't know why, but I have this strong gut feeling that we should leave
+      the connection types up to the computer.
+    2. Write a preliminary class structure for the "knowledge net", or step 2. This is the meat of the project.
+    3. Figure out how exactly to use the Google NatLang API and how to shove its output into the knownet.
+    4. Think more about how we can get an output from the net. I wan't it to have simple statements like conceptnet, but I don't know exactly how that would work.
+
+  To give a sense of time, I don't expect to get to step 4 until well into 2020. And I hope I don't give up before then...
+
+  As of yet, I'm still really excited about this. More thinking is to be done. Cyan!
+</entry>   
