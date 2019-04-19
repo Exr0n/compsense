@@ -1,10 +1,27 @@
 <entry name="first thoughts">
-It's 18 April 2019 and computers are cool. Can we get them to extrapolate information?
+  It's 18 April 2019 and computers are cool. Can we get them to extrapolate information?
 
-Goal: Read the first line of a bunch of wikipedia pages, then parse them and somehow "remember" that information. Then, output a sentence of "common sense" that fits in with other things on conceptnet.io
+  Goal: Read the first line of a bunch of wikipedia pages, then parse them and somehow "remember" that information. Then, output a sentence of "common sense" that fits in with other things on conceptnet.io
 
-Is it doable? Probably.
-Can I do it? Probably not.
+  Is it doable? Probably.
+  Can I do it? Probably not.
 
-Lets get started!
+  Lets get started!
+</entry>
+
+<entry name="reality sinks in">
+  So some smart people have done some cool stuff... like deepmind.
+
+  But I want to tackle a different problem: Can we get the computer to make a "web" of information? Something like how the brain forms a "web" of knowledge?
+  What I mean is: we think of things as connected to other things, and so when you think of a word many others come to mind.
+
+  =============================================================================================================================
+  + THE (main) PROBLEM: What kind of storage or "memory" system needs to be in place to allow for this kind of connectedness? +
+  =============================================================================================================================
+
+  Some kind of node like system is what comes to mind, but what does that even mean in a computing sense?
+  I suppose we have to use Google's natural language API, because that will make things alot easier. It categorizes things and assigns relations to them. Maybe it even solved this problem, and I just did'nt notice.
+  (I hope not, that would be pretty akward.)
+
+  Anyways, I need to do more thinking. Cyan!
 </entry>
