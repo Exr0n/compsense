@@ -11,9 +11,27 @@ exports.Network = class {
     this.concepts = {}; // start from scratch
 
     if (json) { // if we are importing a past "save"
-      for (let key in json.concepts) this.concepts[key] = new exports.Concept( this, name ); // create all the concepts
-      /* todo: import the connections */
+      for (let key in json.concepts) this.createConcept( name ); // create all the concepts
+
+      for (let name in this.concepts) {
+        let concept = this.concepts[name];
+        let frame = json.concepts[name];
+
+        for (let key in frame.relations) {
+          for (let route of frame.relations[key].routes) {
+            let via = [];
+            for (let name in route.via) via.push( this.concepts[name] || undefined )
+            concept.route( this.concepts[frame.relations[key].end] || undefined, via, route.strength );
+          }
+        }
+      }
     }
+  }
+
+  createConcept (name) {
+    let concept = new exports.Concept( this, name );
+    this.concepts[name] = concept;
+    return concept
   }
 
   exportJson () {
@@ -43,16 +61,25 @@ exports.Concept = class {
     this.network = network;
     this.name = name;
 
-    this.relations = [];
+    this.relations = {};
   }
 
-  connect (other) {
-    /* todo Form a connection between this and another concept */
+  route (other, via, strength) {
+    /* Form a connection between this and another concept */
+    let relation;
+    if (!this.relations[other.name]) {
+      relation = new exports.Relation(this.network, this, other);
+      this.relations[other.name] = relation;
+    } else {
+      relation = this.relations[other.name];
+    }
+
+    relation.route( via, strength );
   }
 
   exportJson () {
     let end = {
-      relations: []
+      relations: {}
     }
     for (let rel of this.relations) end.relations.push( rel.exportJson() );
     return end;
@@ -69,15 +96,17 @@ exports.Relation = class {
     this.end = end;
 
     this.routes = [];
-    this.strength = 0;
+    this.strength = 0; // todo: what should even go here? how should this change?
   }
 
-  addRoute (path) {
+  route (path, strength) {
     /* todo Create a new route via concepts */
+    
   }
 
   exportJson () {
     let end = {
+      end: this.end.name,
       routes: []
     }
     for (let route of this.routes) end.push( route.exportJson() );
@@ -89,15 +118,21 @@ exports.Route = class {
   /*
   A specific way in which two concepts are connected
   */
-  constructor (network, start, end, path) {
+  constructor (network, start, end, path, strength) {
     this.network = network;
 
+    this.start = start;
+    this.end = end;
     this.path = path;
-    this.strength = undefined; // todo: what does this even mean, how will it work? via points themselves may be unrelated
+    this.strength = strength; // todo: what does this even mean, how will it work? via points themselves may be unrelated
   }
 
   exportJson () {
-    var end = [];
-    for (let concept of path) end.push( )
+    var end = {
+      strength: this.strength,
+      via: []
+    };
+    for (let concept of path) end.via.push( concept.name );
+    return end;
   }
 }
