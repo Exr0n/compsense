@@ -88,7 +88,7 @@
   So here's the master plan (v 0.0.1.1)
 
     Instead of having concepts and relations, relations will be concepts. This allows for more flexibility and creativity on knonet's part.
-    We can treat connections between concepts as paths in a graph. The concepts are connect to each other "via" other concepts,
+    We can treat connections between concepts as paths in a graph. The concepts connect to each other "via" other concepts,
     and each connection along the "route" will have strengths that are somehow related to the end strength of the connection through concepts.
     In other words, each concepts will have a relation with other concepts, and this relation somehow interacts with some routes that can be formed between concepts through other concepts.
     Importantly, two concepts can be connected through multiple routes, and the particularities of those routes somehow interact with the final connection.
