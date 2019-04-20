@@ -73,4 +73,29 @@
   (Even if it means starting over (I hope not (get ready for a lot of closing parenthesis (')'))))
 
   So yeah, thats the concept update for now. Im gonna start figuring out the class structure and how everything is actually gonna get put together. But until then, cyan!
-</entry>s
+</entry>
+
+<entry name="the first revelation (maybe?)">
+  In the process of coding the thing, I think I figured out how to solve the issue that was nagging at me.
+
+  So the issue was this: why separate everything into concepts and relations? That seems a bit arbitrary, don't you?
+    And even if it doesn't, how do we know this separation is not just a limitation of our own brains? Why should we limit knonet like that?
+  The system was originally devised because that's how I thought conceptnet worked, and conceptnet is basically the thing that I want to end up with.
+    (but like, automatically without crowdsourced info)
+  But it turns out, conceptnet also has pages for the concepts that form the relations. Things like "capable".
+  The thing is, on the pages the relations are still nicely separated out from the things that are normally separated out as "concepts". I think we can do better:
+
+  So here's the master plan (v 0.0.1.1)
+
+    Instead of having concepts and relations, relations will be concepts. This allows for more flexibility and creativity on knonet's part.
+    We can treat connections between concepts as paths in a graph. The concepts are connect to each other "via" other concepts,
+    and each connection along the "route" will have strengths that are somehow related to the end strength of the connection through concepts.
+    In other words, each concepts will have a relation with other concepts, and this relation somehow interacts with some routes that can be formed between concepts through other concepts.
+    Importantly, two concepts can be connected through multiple routes, and the particularities of those routes somehow interact with the final connection.
+
+  There are alot of question marks flying around in my brain right now, and they are stirring up the fog. It's getting harder and harder to see, but I think we've turned slightly
+  and are now facing a new direction. There are still dark shapes in the distance, but they seem further away now. I think this is the way to go.
+
+  Im gonna keep hacking away at the code until I fall asleep on my keyboard. Maybe something new will pop up in my insomnia.
+  But until then, cyan!
+</entry>
