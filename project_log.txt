@@ -99,3 +99,40 @@
   Im gonna keep hacking away at the code until I fall asleep on my keyboard. Maybe something new will pop up in my insomnia.
   But until then, cyan!
 </entry>
+
+<entry name="more inspiration from nature">
+  So I mocked up what I was thinking, but I realized that it was kinda stupid.
+  Well, its pretty cool but like it is set up in a way that makes it hard to integrate with the output of current natural language tech, which is the whole point.
+  Instead, I have an idea for a modification: instead of having separate systems for updating connection weights and a feed method, we can have the feed update the connection weights.
+  This was kind of implemented in the old system but not in a very effective way, and honestly, it was just a sleep deprived kind of "hey we should do this right? probably? eh?".
+
+  This version will be the first major theory change, so we shall call it "alpha 0.0.2"
+
+  Anyways, heres the new plan:
+    Relation strengths are between -1 and 1, inclusive. (Im not sure if I mentioned that before, but thats how it will work for this revision.)
+    A concept receiving a "pulse" from a relation will not propagate that pulse unless it is greater than 0.
+      The "greater than 1" from the above line is calculated with a formula, something along the lines of `squishify(pulse.strength + concept.bias)`
+      As you can see, I don't know enough math to come up with a good formula. That was basically ripped out of the bog standard ANN, but this is a point for improvement.
+    A relation that carries a pulse gets its strength modified, to simulate "neurons that fire together wire together". Something like `squishify(relation.strength * pulse.strength)`
+      The only glaring problem I see with this right now is that a relation cannot get its strength flipped from positive to negative, which seems bad. That needs to be fixed somehow...
+
+  So the reason I have the second rule is so that two nodes can't just fire back and forth at eachother, like a dog and a cat. But writing this sentence,
+    I realize that actually that doesn't actually fix the problem. This needs to be worked on.
+
+  Problems with this plan that need to be kinked out:
+    Concepts can fire back and forth at each other, is there an elegant way to eliminate this that is similar to how actual brains work? (or atleast my understanding of how I think they should work?)
+    Relation strength sign flipping, make it possible but not cause other issues
+    Doing something like that but involve routes? or delete routes all together
+
+  Also, I dreamed up some problems that are probably gonna choke out poor knonet. Here they are:
+
+  Kinda Really Big Problems (KiRBiP):
+    Dealing with words that are the same spelling but different meanings
+    Multi-word tokenization? Putting words together to form more complex concepts
+    Collected/consolidated firings: Actual neurons can be inhibited, but these concepts can't.
+      Can we "buffer" received pulses and calculate some kind of collective pulse strength to pass on?
+      This seems correct because that's how neurons work irl, but maybe our concept system already abstracts this enough that it's uneeded...
+
+  So I suppose the next step is to implement those above changes and again brainstorm how to solve our need kinking problems. That's what I will work on next.
+  But until I have more to say, cyan!
+</entry>
