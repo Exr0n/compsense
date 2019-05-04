@@ -116,7 +116,7 @@
     A relation that carries a pulse gets its strength modified, to simulate "neurons that fire together wire together". Something like `squishify(relation.strength * pulse.strength)`
       The only glaring problem I see with this right now is that a relation cannot get its strength flipped from positive to negative, which seems bad. That needs to be fixed somehow...
 
-  So the reason I have the second rule is so that two nodes can't just fire back and forth at eachother, like a dog and a cat. But writing this sentence,
+  So the reason I have the second rule is so that two nodes can't just fire back and forth at each other, like a dog and a cat. But writing this sentence,
     I realize that actually that doesn't actually fix the problem. This needs to be worked on.
 
   Problems with this plan that need to be kinked out:
