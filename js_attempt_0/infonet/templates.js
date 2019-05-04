@@ -2,6 +2,8 @@
 
 const crypto = require('crypto');
 
+const util = require('./util.js');
+
 exports.Network = class {
   /*
   The network itself
@@ -68,6 +70,7 @@ exports.Concept = class {
 
     this.relations = {};
     this.bias = 0; // todo: how does this affect other stuff?
+    this.id = Math.random();
   }
 
   route (other, via, strength) {
@@ -85,13 +88,16 @@ exports.Concept = class {
     return this;
   }
 
-  feed (strength) {
+  feed (pulse, strength) {
     /* An activation chain in the network */
-    for (let name in this.relations) {
-      let relation = this.relations[name];
-      relation.end.feed( strength * relation.strength + this.bias ); // todo: shove this through a sigmoid or something
-      relation.bias *= strength / (10*1000); // todo: this math here could be improved, sigmoid squishification?; this is meant to simulate fire together wire together
-    }
+    if ( !pulse.path.contains(this.id) ) {
+      pulse.log(this, strength);
+
+      for (let name in this.relations) {
+        let relation = this.relations[name];
+        relation.end.feed( pulse, util.sigmoid(strength * relation.strength + this.bias) ); // todo: should this math really go here?
+      }
+    } else {} // deja vu: we've been here before... todo now what?
 
     return this;
   }
@@ -107,81 +113,44 @@ exports.Concept = class {
 
 exports.Relation = class {
   /*
-  A connection between two concepts
-  */
-  constructor (network, start, end) {
-    this.network = network;
-    this.start = start;
-    this.end = end;
+   * A connection between two concepts
+   * (simple), no separate routes or anything like that
+   */
+  constructor (init) {
+    //* [ network, base_node, target_node, strength?, bias? ]
+    this.netw = init[0];
+    this.base = init[1];
+    this.trgt = init[2];
 
-    this.routes = {};
-    this.bias = 0; // todo: this seems needed, but how does it change the strength?
-
-    this.strength = 0; // todo: what should even go here? how should this change?
+    this.strn = init[3] || Math.random()*2 -1;
+    this.bias = init[4] || Math.random()*2 -1;
   }
 
-  route (via, strength) {
-    /* todo Create a new route via concepts */
-    let route_name = this.network.app.modules.crypto.createHash( 'md5' );
-    for (let concept of via) route_name.update( concept.name );
-    route_name = route_name.digest('hex');
-
-    if (!this.routes[route_name]) {
-      this.routes[route_name] = new exports.Route(this.network, this.start, this.end, via, strength);
-    } else {
-      this.routes[route_name].update(strength);
+  feed (pulse, strength) {
+    // feed forward
+    strength = util.sigmoid( strength * this.strn + this.bias );
+    if (this.strength >= 0) {
+      this.trgt.feed( pulse, strength );
     }
-    this.reSync();
-  }
-
-  reSync () {
-    /* Update this.strength to reflect the state of the routes */
-    let end = 0;
-    for (let name in this.routes) {
-      let route = this.routes[name];
-      end += route.strength;
-    }
-    this.strength = end / this.routes.size + this.bias;
-    // todo: this is a simple average and bias right now, but we could probably do better if I knew more fancy math.
-  }
-
-  exportJson () {
-    let end = {
-      end: this.end.name,
-      routes: []
-    }
-    for (let route in this.routes) end.routes.push( this.routes[route].exportJson() );
-    return end;
+    // update self
+    this.strn = strength; // todo: this math could also be improved;
+    this.bias *= strength / (10*1000); // todo: this math here could be improved, sigmoid squishification?; this is meant to simulate fire together wire together
   }
 }
 
-exports.Route = class {
+exports.Pulse = class {
   /*
-  A specific way in which two concepts are connected
-  */
-  constructor (network, start, end, via, strength) {
-    this.network = network;
+   * Represents a pulse through the network
+   * todo: is there more to add here?
+   */
+  constructor (base) {
+    this.base = base;
 
-    this.start = start;
-    this.end = end;
-    this.via = via;
-    this.strength = strength; // todo: what does this even mean, how will it work? via points themselves may be unrelated
-
-    this.hashsum = this.network.app.modules.crypto.createHash( 'md5' );
-    for (let concept of via) this.hashsum.update( concept.name );
-    this.name = this.hashsum.digest('hex');
+    this.id = Math.random();
+    this.path = [];
   }
 
-  update (strength) {
-    this.strength = strength; // todo: this could be changed to a fancy formula to make for more efficient learning
-  }
-
-  exportJson () {
-    var end = {
-      strength: this.strength,
-      via: []
-    };
-    for (let concept of this.via) end.via.push( concept.name );
-    return end;
+  log (node, strn) {
+    this.path.push(node);
   }
 }
