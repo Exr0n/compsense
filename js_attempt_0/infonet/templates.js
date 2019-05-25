@@ -51,15 +51,7 @@ exports.Network = class {
     return end;
   }
 }
-/* This is a remnant from when concepts and relations were different things.
-exports.Relatable = class {
-  constructor (network, json) {
-    this.network = network;
 
-    for (let concept of )
-  }
-}
-*/
 exports.Concept = class {
   /*
   Some kind of idea that the network knows about
